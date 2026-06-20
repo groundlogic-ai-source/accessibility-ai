@@ -1,0 +1,452 @@
+[
+  {
+    "criterion": "1.1.1",
+    "name": "Non-text Content",
+    "level": "A",
+    "description": "All non-text content that is presented to the user has a text alternative that serves the equivalent purpose.",
+    "axeRules": ["image-alt", "input-image-alt", "area-alt", "role-img-alt", "svg-img-alt"],
+    "category": "perceivable",
+    "clause": "9.1.1.1"
+  },
+  {
+    "criterion": "1.2.1",
+    "name": "Audio-only and Video-only (Prerecorded)",
+    "level": "A",
+    "description": "For prerecorded audio-only and prerecorded video-only media, alternatives are provided.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.2.1"
+  },
+  {
+    "criterion": "1.2.2",
+    "name": "Captions (Prerecorded)",
+    "level": "A",
+    "description": "Captions are provided for all prerecorded audio content in synchronized media.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.2.2"
+  },
+  {
+    "criterion": "1.2.3",
+    "name": "Audio Description or Media Alternative (Prerecorded)",
+    "level": "A",
+    "description": "An alternative for time-based media or audio description of the prerecorded video content is provided.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.2.3"
+  },
+  {
+    "criterion": "1.2.4",
+    "name": "Captions (Live)",
+    "level": "AA",
+    "description": "Captions are provided for all live audio content in synchronized media.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.2.4"
+  },
+  {
+    "criterion": "1.2.5",
+    "name": "Audio Description (Prerecorded)",
+    "level": "AA",
+    "description": "Audio description is provided for all prerecorded video content in synchronized media.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.2.5"
+  },
+  {
+    "criterion": "1.3.1",
+    "name": "Info and Relationships",
+    "level": "A",
+    "description": "Information, structure, and relationships conveyed through presentation can be programmatically determined or are available in text.",
+    "axeRules": ["aria-required-children", "aria-required-parent", "definition-list", "dlitem", "list", "listitem", "marquee", "table-duplicate-name", "td-headers-attr", "th-has-data-cells"],
+    "category": "perceivable",
+    "clause": "9.1.3.1"
+  },
+  {
+    "criterion": "1.3.2",
+    "name": "Meaningful Sequence",
+    "level": "A",
+    "description": "If the sequence in which content is presented affects its meaning, a correct reading sequence can be programmatically determined.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.3.2"
+  },
+  {
+    "criterion": "1.3.3",
+    "name": "Sensory Characteristics",
+    "level": "A",
+    "description": "Instructions provided for understanding and operating content do not rely solely on sensory characteristics.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.3.3"
+  },
+  {
+    "criterion": "1.3.4",
+    "name": "Orientation",
+    "level": "AA",
+    "description": "Content does not restrict its view and operation to a single display orientation.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.3.4"
+  },
+  {
+    "criterion": "1.3.5",
+    "name": "Identify Input Purpose",
+    "level": "AA",
+    "description": "The purpose of each input field collecting information about the user can be programmatically determined.",
+    "axeRules": ["autocomplete-valid"],
+    "category": "perceivable",
+    "clause": "9.1.3.5"
+  },
+  {
+    "criterion": "1.4.1",
+    "name": "Use of Color",
+    "level": "A",
+    "description": "Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.4.1"
+  },
+  {
+    "criterion": "1.4.2",
+    "name": "Audio Control",
+    "level": "A",
+    "description": "If any audio plays automatically for more than 3 seconds, a mechanism is available to pause, stop, or control the volume.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.4.2"
+  },
+  {
+    "criterion": "1.4.3",
+    "name": "Contrast (Minimum)",
+    "level": "AA",
+    "description": "The visual presentation of text and images of text has a contrast ratio of at least 4.5:1.",
+    "axeRules": ["color-contrast", "color-contrast-enhanced"],
+    "category": "perceivable",
+    "clause": "9.1.4.3"
+  },
+  {
+    "criterion": "1.4.4",
+    "name": "Resize Text",
+    "level": "AA",
+    "description": "Text can be resized without assistive technology up to 200 percent without loss of content or functionality.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.4.4"
+  },
+  {
+    "criterion": "1.4.5",
+    "name": "Images of Text",
+    "level": "AA",
+    "description": "If the technologies being used can achieve the visual presentation, text is used to convey information rather than images of text.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.4.5"
+  },
+  {
+    "criterion": "1.4.10",
+    "name": "Reflow",
+    "level": "AA",
+    "description": "Content can be presented without loss of information or functionality, and without requiring scrolling in two dimensions.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.4.10"
+  },
+  {
+    "criterion": "1.4.11",
+    "name": "Non-text Contrast",
+    "level": "AA",
+    "description": "The visual presentation of UI components and graphical objects has a contrast ratio of at least 3:1 against adjacent colors.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.4.11"
+  },
+  {
+    "criterion": "1.4.12",
+    "name": "Text Spacing",
+    "level": "AA",
+    "description": "No loss of content or functionality occurs when users change text spacing properties.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.4.12"
+  },
+  {
+    "criterion": "1.4.13",
+    "name": "Content on Hover or Focus",
+    "level": "AA",
+    "description": "Where receiving and then removing pointer hover or keyboard focus triggers additional content, that content is dismissible, hoverable, and persistent.",
+    "axeRules": [],
+    "category": "perceivable",
+    "clause": "9.1.4.13"
+  },
+  {
+    "criterion": "2.1.1",
+    "name": "Keyboard",
+    "level": "A",
+    "description": "All functionality of the content is operable through a keyboard interface.",
+    "axeRules": ["accesskeys", "focus-trap"],
+    "category": "operable",
+    "clause": "9.2.1.1"
+  },
+  {
+    "criterion": "2.1.2",
+    "name": "No Keyboard Trap",
+    "level": "A",
+    "description": "If keyboard focus can be moved to a component using a keyboard interface, focus can be moved away from that component using only a keyboard interface.",
+    "axeRules": [],
+    "category": "operable",
+    "clause": "9.2.1.2"
+  },
+  {
+    "criterion": "2.1.4",
+    "name": "Character Key Shortcuts",
+    "level": "A",
+    "description": "If a keyboard shortcut is implemented using only letter, punctuation, number, or symbol characters, a mechanism is available to turn off or remap the shortcut.",
+    "axeRules": [],
+    "category": "operable",
+    "clause": "9.2.1.4"
+  },
+  {
+    "criterion": "2.2.1",
+    "name": "Timing Adjustable",
+    "level": "A",
+    "description": "For each time limit set by the content, the user can turn off, adjust, or extend the time limit.",
+    "axeRules": ["meta-refresh"],
+    "category": "operable",
+    "clause": "9.2.2.1"
+  },
+  {
+    "criterion": "2.2.2",
+    "name": "Pause, Stop, Hide",
+    "level": "A",
+    "description": "For moving, blinking, scrolling, or auto-updating information, a mechanism is available to pause, stop, or hide it.",
+    "axeRules": ["blink", "marquee"],
+    "category": "operable",
+    "clause": "9.2.2.2"
+  },
+  {
+    "criterion": "2.3.1",
+    "name": "Three Flashes or Below Threshold",
+    "level": "A",
+    "description": "Web pages do not contain anything that flashes more than three times in any one second period.",
+    "axeRules": [],
+    "category": "operable",
+    "clause": "9.2.3.1"
+  },
+  {
+    "criterion": "2.4.1",
+    "name": "Bypass Blocks",
+    "level": "A",
+    "description": "A mechanism is available to bypass blocks of content that are repeated on multiple web pages.",
+    "axeRules": ["bypass", "skip-link"],
+    "category": "operable",
+    "clause": "9.2.4.1"
+  },
+  {
+    "criterion": "2.4.2",
+    "name": "Page Titled",
+    "level": "A",
+    "description": "Web pages have titles that describe topic or purpose.",
+    "axeRules": ["document-title"],
+    "category": "operable",
+    "clause": "9.2.4.2"
+  },
+  {
+    "criterion": "2.4.3",
+    "name": "Focus Order",
+    "level": "A",
+    "description": "If a web page can be navigated sequentially and the navigation sequences affect meaning or operation, focusable components receive focus in an order that preserves meaning and operation.",
+    "axeRules": ["tabindex"],
+    "category": "operable",
+    "clause": "9.2.4.3"
+  },
+  {
+    "criterion": "2.4.4",
+    "name": "Link Purpose (In Context)",
+    "level": "A",
+    "description": "The purpose of each link can be determined from the link text alone, or from the link text together with its programmatically determined link context.",
+    "axeRules": ["link-name", "link-in-text-block"],
+    "category": "operable",
+    "clause": "9.2.4.4"
+  },
+  {
+    "criterion": "2.4.5",
+    "name": "Multiple Ways",
+    "level": "AA",
+    "description": "More than one way is available to locate a web page within a set of web pages.",
+    "axeRules": [],
+    "category": "operable",
+    "clause": "9.2.4.5"
+  },
+  {
+    "criterion": "2.4.6",
+    "name": "Headings and Labels",
+    "level": "AA",
+    "description": "Headings and labels describe topic or purpose.",
+    "axeRules": ["empty-heading", "heading-order"],
+    "category": "operable",
+    "clause": "9.2.4.6"
+  },
+  {
+    "criterion": "2.4.7",
+    "name": "Focus Visible",
+    "level": "AA",
+    "description": "Any keyboard operable user interface has a mode of operation where the keyboard focus indicator is visible.",
+    "axeRules": ["focus-visible"],
+    "category": "operable",
+    "clause": "9.2.4.7"
+  },
+  {
+    "criterion": "2.5.1",
+    "name": "Pointer Gestures",
+    "level": "A",
+    "description": "All functionality that uses multipoint or path-based gestures can be operated with a single pointer without a path-based gesture.",
+    "axeRules": [],
+    "category": "operable",
+    "clause": "9.2.5.1"
+  },
+  {
+    "criterion": "2.5.2",
+    "name": "Pointer Cancellation",
+    "level": "A",
+    "description": "For functionality that can be operated using a single pointer, at least one of the following is true: No Down-Event, Abort or Undo, Up Reversal, or Essential.",
+    "axeRules": [],
+    "category": "operable",
+    "clause": "9.2.5.2"
+  },
+  {
+    "criterion": "2.5.3",
+    "name": "Label in Name",
+    "level": "A",
+    "description": "For user interface components with labels that include text or images of text, the name contains the text that is presented visually.",
+    "axeRules": ["label-content-name-mismatch"],
+    "category": "operable",
+    "clause": "9.2.5.3"
+  },
+  {
+    "criterion": "2.5.4",
+    "name": "Motion Actuation",
+    "level": "A",
+    "description": "Functionality that can be operated by device motion or user motion can also be operated by user interface components.",
+    "axeRules": [],
+    "category": "operable",
+    "clause": "9.2.5.4"
+  },
+  {
+    "criterion": "3.1.1",
+    "name": "Language of Page",
+    "level": "A",
+    "description": "The default human language of each web page can be programmatically determined.",
+    "axeRules": ["html-has-lang", "html-lang-valid"],
+    "category": "understandable",
+    "clause": "9.3.1.1"
+  },
+  {
+    "criterion": "3.1.2",
+    "name": "Language of Parts",
+    "level": "AA",
+    "description": "The human language of each passage or phrase in the content can be programmatically determined.",
+    "axeRules": ["valid-lang"],
+    "category": "understandable",
+    "clause": "9.3.1.2"
+  },
+  {
+    "criterion": "3.2.1",
+    "name": "On Focus",
+    "level": "A",
+    "description": "If any component receives focus, it does not initiate a change of context.",
+    "axeRules": [],
+    "category": "understandable",
+    "clause": "9.3.2.1"
+  },
+  {
+    "criterion": "3.2.2",
+    "name": "On Input",
+    "level": "A",
+    "description": "Changing the setting of any user interface component does not automatically cause a change of context.",
+    "axeRules": [],
+    "category": "understandable",
+    "clause": "9.3.2.2"
+  },
+  {
+    "criterion": "3.2.3",
+    "name": "Consistent Navigation",
+    "level": "AA",
+    "description": "Navigational mechanisms that are repeated on multiple web pages occur in the same relative order each time they are repeated.",
+    "axeRules": [],
+    "category": "understandable",
+    "clause": "9.3.2.3"
+  },
+  {
+    "criterion": "3.2.4",
+    "name": "Consistent Identification",
+    "level": "AA",
+    "description": "Components that have the same functionality within a set of web pages are identified consistently.",
+    "axeRules": [],
+    "category": "understandable",
+    "clause": "9.3.2.4"
+  },
+  {
+    "criterion": "3.3.1",
+    "name": "Error Identification",
+    "level": "A",
+    "description": "If an input error is automatically detected, the item that is in error is identified and the error is described to the user in text.",
+    "axeRules": [],
+    "category": "understandable",
+    "clause": "9.3.3.1"
+  },
+  {
+    "criterion": "3.3.2",
+    "name": "Labels or Instructions",
+    "level": "A",
+    "description": "Labels or instructions are provided when content requires user input.",
+    "axeRules": ["label", "label-title-only", "select-name", "textarea-label", "input-button-name"],
+    "category": "understandable",
+    "clause": "9.3.3.2"
+  },
+  {
+    "criterion": "3.3.3",
+    "name": "Error Suggestion",
+    "level": "AA",
+    "description": "If an input error is automatically detected and suggestions for correction are known, the suggestion is provided to the user.",
+    "axeRules": [],
+    "category": "understandable",
+    "clause": "9.3.3.3"
+  },
+  {
+    "criterion": "3.3.4",
+    "name": "Error Prevention (Legal, Financial, Data)",
+    "level": "AA",
+    "description": "For web pages that cause legal commitments or financial transactions, submissions are reversible, checked, or confirmed.",
+    "axeRules": [],
+    "category": "understandable",
+    "clause": "9.3.3.4"
+  },
+  {
+    "criterion": "4.1.1",
+    "name": "Parsing",
+    "level": "A",
+    "description": "In content implemented using markup languages, elements have complete start and end tags, are nested according to their specifications, do not contain duplicate attributes, and any IDs are unique.",
+    "axeRules": ["duplicate-id", "duplicate-id-active", "duplicate-id-aria"],
+    "category": "robust",
+    "clause": "9.4.1.1"
+  },
+  {
+    "criterion": "4.1.2",
+    "name": "Name, Role, Value",
+    "level": "A",
+    "description": "For all user interface components, the name and role can be programmatically determined; states, properties, and values can be programmatically set; and notification of changes is available to user agents.",
+    "axeRules": ["aria-allowed-attr", "aria-command-name", "aria-hidden-body", "aria-hidden-focus", "aria-input-field-name", "aria-meter-name", "aria-progressbar-name", "aria-required-attr", "aria-roles", "aria-toggle-field-name", "aria-tooltip-name", "aria-valid-attr", "aria-valid-attr-value", "button-name", "combobox-name", "form-field-multiple-labels", "frame-title", "iframe-title-unique", "input-button-name", "role-presentation", "scrollable-region-focusable"],
+    "category": "robust",
+    "clause": "9.4.1.2"
+  },
+  {
+    "criterion": "4.1.3",
+    "name": "Status Messages",
+    "level": "AA",
+    "description": "In content implemented using markup languages, status messages can be programmatically determined through role or properties.",
+    "axeRules": [],
+    "category": "robust",
+    "clause": "9.4.1.3"
+  }
+]

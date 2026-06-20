@@ -1,0 +1,1 @@
+- [MCP SDK usage](mcp-sdk-usage.md) — tool() needs 5-arg form; zod must be "zod" not "zod/v4"; StreamableHTTPServerTransport wiring pattern
