@@ -1,0 +1,319 @@
+Build an open source MCP (Model Context Protocol) server called 
+"AccessibilityAI" — an autonomous web accessibility auditor that 
+scans a URL, identifies WCAG 2.1 violations using both DOM analysis 
+and visual AI, autonomously generates code fixes, re-verifies them, 
+and produces a completed VPAT 2.5 compliance report.
+
+This is a BRING YOUR OWN KEY tool. Users supply their own 
+Anthropic API key. We never store keys — they are passed per 
+request only and held in memory for the duration of that scan only.
+
+---
+
+## TECH STACK
+
+Runtime: Node.js 18+
+MCP SDK: @modelcontextprotocol/sdk (latest)
+Browser automation: Playwright (Chromium)
+Accessibility scanning: axe-core via @axe-core/playwright
+AI analysis: Anthropic Claude API (user-supplied key)
+PDF generation: pdf-lib
+Transport: Streamable HTTP (NOT stdio — required for Claude 
+Connector Directory submission)
+Language: TypeScript
+
+---
+
+## PROJECT STRUCTURE
+
+/
+├── src/
+│   ├── server.ts          # MCP server entry point
+│   ├── scanner.ts         # Playwright + axe-core DOM scan
+│   ├── vision.ts          # Claude Vision screenshot analysis
+│   ├── fixer.ts           # Autonomous fix prompt generator
+│   ├── vpat.ts            # VPAT 2.5 template mapper
+│   ├── pdf.ts             # PDF report generator
+│   └── types.ts           # Shared TypeScript interfaces
+├── vpat-template/
+│   └── vpat-2.5.json      # VPAT criteria (see below)
+├── package.json
+├── tsconfig.json
+├── README.md              # Must be excellent — this is what 
+│                          # developers read before installing
+└── PRIVACY.md             # Required for Claude directory submission
+
+---
+
+## MCP TOOLS TO IMPLEMENT
+
+Implement exactly 3 MCP tools. Each must have:
+- A "title" annotation
+- A "readOnlyHint: true" annotation (we never modify user files 
+  directly — we only suggest fixes)
+- Clear input schema with descriptions
+
+### Tool 1: scan_accessibility
+Description: "Scans a URL for WCAG 2.1 accessibility violations 
+using DOM analysis and visual AI. Returns structured violation data."
+
+Input schema:
+{
+  url: string (required) — the URL to scan
+  anthropic_api_key: string (required) — user's own Anthropic key
+  scan_depth: "single_page" | "full_site" (optional, 
+              default: "single_page")
+  max_pages: number (optional, default: 1, max: 10 for full_site)
+}
+
+What it does:
+1. Launches Playwright headless Chromium browser
+2. Navigates to the URL
+3. Runs axe-core scan — captures all DOM-level violations
+4. Takes a full-page screenshot
+5. Sends screenshot to Claude Vision API (using user's key) with 
+   this prompt:
+   "You are an expert web accessibility auditor. Analyze this 
+   screenshot for WCAG 2.1 accessibility issues that a DOM scanner 
+   would miss. Look specifically for:
+   - Color contrast issues (text that looks low-contrast visually)
+   - Tap/click targets that appear too small (under 44x44px)
+   - Text that is too small to read comfortably (under 16px 
+     apparent size)
+   - Images where alt text would be insufficient based on visual 
+     content
+   - Form fields that lack visible labels
+   - Content that appears visually confusing or unclear
+   - Anything an elderly or visually impaired user would struggle 
+     with
+   Return a JSON array of violations with fields: 
+   issue, wcag_criterion, severity (critical/serious/moderate/minor), 
+   element_description, suggested_fix"
+6. Merges axe-core results + VLM findings, deduplicates
+7. Maps each violation to its WCAG 2.1 success criterion
+8. Returns structured ScanResult object
+
+Returns:
+{
+  url: string,
+  scan_id: string (uuid),
+  timestamp: string,
+  total_violations: number,
+  violations_by_severity: { critical, serious, moderate, minor },
+  violations: ViolationItem[],
+  pages_scanned: number,
+  estimated_fix_time: string (e.g. "2-4 hours")
+}
+
+### Tool 2: generate_fixes
+Description: "Takes scan results and generates specific code fixes 
+for each accessibility violation. Returns ready-to-apply code 
+patches."
+
+Input schema:
+{
+  scan_id: string (required) — from previous scan_accessibility call
+  framework: "react" | "html" | "vue" | "angular" | "next" 
+             (optional, default: "html")
+  anthropic_api_key: string (required)
+}
+
+What it does:
+1. Retrieves scan results by scan_id (store in-memory Map, 
+   expires after 1 hour)
+2. For each violation, calls Claude API with:
+   "You are an expert accessibility engineer. Generate a specific 
+   code fix for this WCAG 2.1 violation:
+   
+   Violation: [issue]
+   WCAG Criterion: [criterion]
+   Element: [element_description]
+   Framework: [framework]
+   
+   Provide:
+   1. The specific code change needed (before/after if possible)
+   2. Why this fixes the issue
+   3. Any caveats or edge cases
+   Keep the fix minimal and surgical — don't rewrite surrounding code."
+3. Batches violations into groups of 5 to minimize API calls
+4. Returns array of FixSuggestion objects
+
+Returns:
+{
+  scan_id: string,
+  fixes: FixSuggestion[],
+  copy_paste_summary: string — a single block of all fixes 
+                               formatted for pasting into 
+                               Claude Code or Replit Agent
+}
+
+IMPORTANT: The copy_paste_summary field should be formatted as 
+a ready-to-paste prompt for Claude Code or Replit Agent:
+"Please fix the following accessibility violations in my codebase:
+[numbered list of specific fixes]
+After applying each fix, verify it resolves the issue."
+
+### Tool 3: generate_vpat
+Description: "Generates a complete VPAT 2.5 accessibility 
+conformance report based on scan results. Returns both a 
+structured JSON report and a downloadable PDF."
+
+Input schema:
+{
+  scan_id: string (required)
+  product_name: string (required)
+  product_version: string (optional, default: "1.0")
+  company_name: string (required)
+  contact_email: string (required)
+  evaluation_date: string (optional, default: today's date)
+  notes: string (optional) — any additional context
+  anthropic_api_key: string (required)
+}
+
+What it does:
+1. Loads the VPAT 2.5 template from /vpat-template/vpat-2.5.json
+2. Maps scan violations to WCAG success criteria
+3. For each criterion, determines conformance level:
+   - "Supports" — no violations found for this criterion
+   - "Partially Supports" — some violations found
+   - "Does Not Support" — critical violations found
+   - "Not Applicable" — criterion doesn't apply to this product
+4. Uses Claude to generate natural language descriptions for 
+   each criterion's remarks field
+5. Generates PDF using pdf-lib with:
+   - Cover page: product name, company, date, evaluator
+   - Executive summary: overall conformance percentage
+   - Table: all WCAG 2.1 criteria with conformance level + remarks
+   - Appendix: detailed violation list
+   - Disclaimer: "This report covers automated and AI-assisted 
+     checks. Manual review is recommended for full WCAG compliance. 
+     Automated tools detect approximately 40-60% of accessibility 
+     issues."
+6. Returns PDF as base64 + JSON report
+
+---
+
+## VPAT TEMPLATE FILE
+
+Create /vpat-template/vpat-2.5.json with ALL WCAG 2.1 Level A 
+and AA success criteria. Structure:
+
+[
+  {
+    "criterion": "1.1.1",
+    "name": "Non-text Content",
+    "level": "A",
+    "description": "All non-text content has a text alternative",
+    "axe_rules": ["image-alt", "input-image-alt", "area-alt"],
+    "category": "perceivable"
+  },
+  ... (all criteria through 4.1.3)
+]
+
+Build this complete JSON from the WCAG 2.1 specification. Include 
+all 50 Level A and AA success criteria. This is critical — the 
+VPAT output is only legally useful if it covers all criteria.
+
+---
+
+## IN-MEMORY STORAGE
+
+Use a simple Map for scan result caching:
+const scanCache = new Map<string, ScanResult>();
+
+Set TTL: delete entries after 60 minutes
+Cap: maximum 100 entries (LRU eviction)
+Never persist to disk — no PHI or user data stored anywhere
+
+---
+
+## README.md REQUIREMENTS
+
+The README must be excellent. Include:
+- One-sentence description: "Autonomous WCAG 2.1 accessibility 
+  auditor that scans, fixes, and generates VPAT reports using 
+  AI vision analysis + DOM scanning"
+- Animated GIF placeholder note: [Add demo GIF here]
+- Quick start: exactly 3 steps to get running
+- All 3 tools documented with example inputs/outputs
+- "Used in production" section mentioning healthcare compliance 
+  use case
+- "Bring Your Own Key" section explaining users supply their own 
+  Anthropic API key
+- Limitations section: "Automated tools detect ~40-60% of 
+  accessibility issues. Manual review recommended for full 
+  compliance certification."
+- License: MIT
+- Contributing section
+
+---
+
+## PRIVACY.md REQUIREMENTS
+
+Required for Claude Connector Directory submission. Include:
+- What data is collected: URLs submitted for scanning (not stored 
+  after session), screenshots (processed in memory, never stored), 
+  user-supplied Anthropic API keys (held in memory for request 
+  duration only, never logged or stored)
+- What is NOT collected: no user accounts, no persistent storage, 
+  no analytics, no third party data sharing
+- API keys: explicitly state keys are never logged, never stored, 
+  used only for the duration of a single scan request
+- Contact email for privacy questions
+
+---
+
+## MCP SERVER CONFIGURATION
+
+Use Streamable HTTP transport (NOT stdio):
+const server = new McpServer({
+  name: "accessibility-ai",
+  version: "1.0.0",
+});
+
+server.listen({ 
+  transport: "streamable-http",
+  port: process.env.PORT || 3000
+});
+
+Add health endpoint at GET /health returning { status: "ok" }
+Add privacy policy endpoint at GET /privacy returning PRIVACY.md 
+content as text/plain
+
+---
+
+## PACKAGE.JSON
+
+Name: "accessibility-ai-mcp"
+Make it publishable to npm with proper keywords:
+["mcp", "accessibility", "wcag", "vpat", "a11y", 
+ "anthropic", "claude", "compliance"]
+
+---
+
+## CRITICAL REQUIREMENTS
+
+1. TypeScript strict mode — no any types
+2. Every MCP tool must have readOnlyHint: true annotation
+3. API keys must NEVER appear in logs — scrub them from all 
+   console output
+4. Playwright should run in headless mode with --no-sandbox 
+   for containerized environments
+5. All Anthropic API calls must have proper error handling with 
+   user-friendly error messages if the key is invalid or has 
+   insufficient credits
+6. Rate limit: if scan_depth is full_site, cap at 10 pages 
+   maximum and warn the user
+7. The copy_paste_summary in generate_fixes must be formatted 
+   so someone can paste it directly into Claude Code or Replit 
+   Agent and get working fixes immediately
+
+---
+
+## DO NOT
+
+- Do not build a frontend UI — this is an MCP server only
+- Do not store any user data persistently
+- Do not require any authentication (bring your own key model)
+- Do not use stdio transport — use Streamable HTTP only
+- Do not use any deprecated Anthropic SDK methods
