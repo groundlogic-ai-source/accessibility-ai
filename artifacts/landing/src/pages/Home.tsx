@@ -39,7 +39,7 @@ export default function Home() {
             <a href="#installation" className="hover:text-foreground transition-colors">Installation</a>
           </nav>
           <div className="flex items-center gap-4">
-            <a href="https://github.com/groundlogic-ai-source" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+            <a href="https://github.com/groundlogic-ai-source/accessibility-ai" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
               <Github className="h-4 w-4" />
             </a>
             <Button variant="default" size="sm" className="h-8 px-4 text-xs font-medium rounded" asChild>
@@ -72,7 +72,7 @@ export default function Home() {
                 </a>
               </Button>
               <Button size="default" variant="outline" className="h-9 px-5 text-sm font-medium rounded bg-background" asChild>
-                <a href="https://github.com/groundlogic-ai-source" target="_blank" rel="noreferrer">
+                <a href="https://github.com/groundlogic-ai-source/accessibility-ai" target="_blank" rel="noreferrer">
                   <Github className="mr-2 h-4 w-4" />
                   View Source
                 </a>
@@ -266,7 +266,7 @@ export default function Home() {
             <a href="mailto:info@groundlogic.ai" className="text-muted-foreground hover:text-foreground transition-colors">
               info@groundlogic.ai
             </a>
-            <a href="https://github.com/groundlogic-ai-source" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
+            <a href="https://github.com/groundlogic-ai-source/accessibility-ai" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
               <Github className="h-3 w-3" />
               <span>GitHub</span>
             </a>
