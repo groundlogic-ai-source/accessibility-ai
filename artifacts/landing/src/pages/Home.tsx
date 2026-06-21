@@ -68,7 +68,7 @@ export default function Home() {
               <Button size="default" className="h-9 px-5 text-sm font-medium rounded" asChild>
                 <a href="#installation">
                   <Terminal className="mr-2 h-4 w-4" />
-                  Install MCP Server
+                  Connect Your Editor
                 </a>
               </Button>
               <Button size="default" variant="outline" className="h-9 px-5 text-sm font-medium rounded bg-background" asChild>
