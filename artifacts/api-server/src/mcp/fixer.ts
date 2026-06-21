@@ -116,6 +116,11 @@ export async function generateFixes(
       const batchFixes = await generateFixBatch(batch, framework, client);
       allFixes.push(...batchFixes);
     } catch (err) {
+      if (err instanceof Anthropic.AuthenticationError) {
+        throw new Error(
+          "Invalid Anthropic API key — verify your key at https://console.anthropic.com"
+        );
+      }
       logger.warn({ err }, "Fix batch failed, adding placeholder fixes");
       for (const v of batch) {
         allFixes.push({

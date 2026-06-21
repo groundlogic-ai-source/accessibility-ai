@@ -25,20 +25,29 @@ It runs as an MCP server over Streamable HTTP — compatible with Claude Desktop
 
 ## Quick Start
 
+This is a **pnpm monorepo**. The MCP server lives in `artifacts/api-server/`.
+
 ```bash
 # 1. Clone and install
-git clone https://github.com/groundlogic-ai/accessibility-ai-mcp
-cd accessibility-ai-mcp
+git clone https://github.com/groundlogic-ai-source/accessibility-ai
+cd accessibility-ai
 pnpm install
 
-# 2. Set environment variables
-cp .env.example .env
-# Fill in DATABASE_URL (PostgreSQL required)
+# 2. Install the Playwright browser (required for scanning)
+npx playwright install chromium
 
-# 3. Start the server
+# 3. Set environment variables
+export DATABASE_URL="postgresql://user:pass@localhost:5432/accessibilityai"
+# Or copy from a .env file — pnpm-workspace reads it automatically
+
+# 4. Push the database schema
+pnpm --filter @workspace/db run push
+
+# 5. Start the MCP server
 pnpm --filter @workspace/api-server run dev
-# MCP endpoint: http://localhost:<PORT>/mcp
-# Health check: http://localhost:<PORT>/api/healthz
+# MCP endpoint:   http://localhost:8080/mcp
+# Health check:   http://localhost:8080/api/healthz
+# REST scan:      http://localhost:8080/api/scan  (no MCP client needed)
 ```
 
 ---

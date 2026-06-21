@@ -138,10 +138,28 @@ export async function scanPage(
     logger.info({ url, maxPages }, "Full site scan — collecting additional URLs");
   }
 
-  const browser = await chromium.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
-  });
+  let browser;
+  try {
+    browser = await chromium.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (
+      msg.includes("Executable doesn't exist") ||
+      msg.includes("browserType.launch") ||
+      msg.includes("playwright") ||
+      msg.includes("ENOENT")
+    ) {
+      throw new Error(
+        "Scanner not ready: browser runtime is not installed on this server. " +
+          "If self-hosting, run `npx playwright install chromium` after `pnpm install`. " +
+          "For the hosted service contact info@groundlogic.ai."
+      );
+    }
+    throw err;
+  }
 
   try {
     const seenIds = new Set<string>();
@@ -209,6 +227,11 @@ export async function scanPage(
           }
         }
       } catch (err) {
+        if (err instanceof Anthropic.AuthenticationError) {
+          throw new Error(
+            "Invalid Anthropic API key — verify your key at https://console.anthropic.com"
+          );
+        }
         logger.warn({ err }, "Vision analysis failed, continuing with DOM results only");
       }
     }
