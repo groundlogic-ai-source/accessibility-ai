@@ -7,7 +7,7 @@ export default function Home() {
   const claudeConfig = `{
   "mcpServers": {
     "accessibility-ai": {
-      "url": "https://[deployed-url]/mcp",
+      "url": "https://accessibilityai.replit.app/mcp",
       "transport": "http"
     }
   }
@@ -16,7 +16,7 @@ export default function Home() {
   const cursorConfig = `{
   "mcpServers": {
     "accessibility-ai": {
-      "url": "https://[deployed-url]/mcp",
+      "url": "https://accessibilityai.replit.app/mcp",
       "transport": "streamable-http"
     }
   }
@@ -39,7 +39,7 @@ export default function Home() {
             <a href="#installation" className="hover:text-foreground transition-colors">Installation</a>
           </nav>
           <div className="flex items-center gap-4">
-            <a href="https://github.com/groundlogic-ai/accessibility-ai" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+            <a href="https://github.com/groundlogic-ai-source/accessibility-ai" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
               <Github className="h-5 w-5" />
             </a>
             <Button variant="default" size="sm" asChild>
@@ -73,7 +73,7 @@ export default function Home() {
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="h-12 px-8 text-base bg-background" asChild>
-                <a href="https://github.com/groundlogic-ai/accessibility-ai" target="_blank" rel="noreferrer">
+                <a href="https://github.com/groundlogic-ai-source/accessibility-ai" target="_blank" rel="noreferrer">
                   <Github className="mr-2 h-5 w-5" />
                   View Source
                 </a>
@@ -266,7 +266,7 @@ export default function Home() {
             <a href="mailto:info@groundlogic.ai" className="text-muted-foreground hover:text-foreground font-medium transition-colors">
               info@groundlogic.ai
             </a>
-            <a href="https://github.com/groundlogic-ai/accessibility-ai" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
+            <a href="https://github.com/groundlogic-ai-source/accessibility-ai" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
               <Github className="h-4 w-4" />
               <span>GitHub</span>
             </a>

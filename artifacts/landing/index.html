@@ -3,19 +3,103 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>AccessibilityAI</title>
-    <meta name="description" content="AccessibilityAI — built on Replit. Update this description to reflect the app." />
+
+    <!-- Primary SEO -->
+    <title>AccessibilityAI — VPAT Generator &amp; WCAG 2.1 Compliance Tool | GroundLogic AI</title>
+    <meta name="description" content="Automate WCAG 2.1 accessibility audits, generate VPAT 2.5 / EN 301 549 compliance reports, and get AI-powered code fixes — directly from Claude Code or Cursor. Open-source MCP server by GroundLogic AI." />
+    <meta name="keywords" content="VPAT generator, VPAT 2.5, WCAG 2.1 compliance, accessibility compliance report, EN 301 549, Section 508 compliance, ADA compliance tool, web accessibility audit, automated accessibility testing, VPAT template, accessibility statement generator, WCAG audit, MCP server, AI accessibility tool, axe-core" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="AccessibilityAI" />
-    <meta property="og:description" content="AccessibilityAI — built on Replit. Update this description to reflect the app." />
+    <meta name="author" content="GroundLogic AI" />
+    <link rel="canonical" href="https://accessibilityai.replit.app/" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://accessibilityai.replit.app/" />
+    <meta property="og:title" content="AccessibilityAI — VPAT Generator &amp; WCAG 2.1 Compliance Tool" />
+    <meta property="og:description" content="Automate WCAG 2.1 accessibility audits, generate VPAT 2.5 / EN 301 549 reports, and get AI-powered code fixes from your editor. Open-source MCP server by GroundLogic AI." />
+    <meta property="og:site_name" content="AccessibilityAI by GroundLogic AI" />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AccessibilityAI" />
-    <meta name="twitter:description" content="AccessibilityAI — built on Replit. Update this description to reflect the app." />
+    <meta name="twitter:title" content="AccessibilityAI — VPAT Generator &amp; WCAG 2.1 Compliance Tool" />
+    <meta name="twitter:description" content="Automate WCAG 2.1 audits, generate VPAT 2.5 / EN 301 549 reports, and get AI-powered code fixes — directly from Claude Code or Cursor." />
+    <meta name="twitter:site" content="@groundlogicai" />
+
+    <!-- Structured Data: SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "AccessibilityAI",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "url": "https://accessibilityai.replit.app/",
+      "description": "An open-source MCP server that autonomously scans URLs for WCAG 2.1 violations, generates AI-powered code fixes, re-verifies them, and produces complete VPAT 2.5 / EN 301 549 compliance reports.",
+      "keywords": "VPAT generator, WCAG 2.1, accessibility compliance, EN 301 549, Section 508, ADA compliance, accessibility audit",
+      "author": {
+        "@type": "Organization",
+        "name": "GroundLogic AI",
+        "email": "info@groundlogic.ai",
+        "url": "https://accessibilityai.replit.app/"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "WCAG 2.1 Level A and AA automated scanning",
+        "VPAT 2.5 report generation",
+        "EN 301 549 compliance reporting",
+        "Section 508 compliance",
+        "AI-powered code fix generation",
+        "Re-verification after fixes",
+        "PDF report export",
+        "Model Context Protocol (MCP) integration"
+      ],
+      "softwareVersion": "1.0.0",
+      "license": "https://opensource.org/licenses/MIT",
+      "codeRepository": "https://github.com/groundlogic-ai-source/accessibility-ai"
+    }
+    </script>
+
+    <!-- FAQ Structured Data for VPAT keywords -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a VPAT and how does AccessibilityAI generate one?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A VPAT (Voluntary Product Accessibility Template) is a document that explains how a software product meets the Revised Section 508 Standards and WCAG 2.1 guidelines. AccessibilityAI automatically scans your website, evaluates each of the 50 WCAG 2.1 Level A/AA success criteria, and generates a complete VPAT 2.5 report in both JSON and PDF format — directly from your Claude Code or Cursor editor."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does AccessibilityAI support WCAG 2.1 Level AA compliance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. AccessibilityAI evaluates all 50 WCAG 2.1 Level A and Level AA success criteria using a combination of axe-core automated scanning and Claude Vision AI analysis. It covers color contrast, keyboard navigation, ARIA attributes, semantic structure, and more."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is EN 301 549 and is it covered?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "EN 301 549 is the European accessibility standard for ICT products and services. AccessibilityAI produces VPAT 2.5 reports that cover EN 301 549 Clause 9 (Web) fully evaluated, and Clauses 5–8 and 10–13 noted as Not Evaluated — the standard enterprise reporting approach."
+          }
+        }
+      ]
+    }
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="root"></div>
