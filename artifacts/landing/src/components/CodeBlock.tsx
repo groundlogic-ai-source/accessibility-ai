@@ -24,14 +24,14 @@ export function CodeBlock({ code, language = 'json', filename, className }: Code
   };
 
   return (
-    <div className={cn("rounded-lg border border-border bg-[#0d1117] overflow-hidden shadow-sm", className)}>
+    <div className={cn("rounded-md border border-border bg-[#0a0a0a] overflow-hidden", className)}>
       {filename && (
-        <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-[#161b22]">
-          <span className="text-xs font-mono text-muted-foreground">{filename}</span>
+        <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-[#111111]">
+          <span className="text-xs font-mono text-zinc-400">{filename}</span>
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6 text-muted-foreground hover:text-white"
+            className="h-6 w-6 text-zinc-400 hover:text-white hover:bg-white/10"
             onClick={copyToClipboard}
             data-testid={`copy-btn-${filename.replace(/[^a-zA-Z0-9]/g, '-')}`}
           >
@@ -44,14 +44,14 @@ export function CodeBlock({ code, language = 'json', filename, className }: Code
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-white opacity-0 group-hover:opacity-100 transition-opacity bg-[#161b22]/50 hover:bg-[#161b22]"
+            className="absolute top-2 right-2 h-6 w-6 text-zinc-400 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity bg-[#111111]/50 hover:bg-[#111111]"
             onClick={copyToClipboard}
             data-testid="copy-btn-unnamed"
           >
             {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
           </Button>
         )}
-        <pre className="p-4 overflow-x-auto text-sm font-mono leading-relaxed text-[#c9d1d9]">
+        <pre className="p-4 overflow-x-auto text-xs font-mono leading-relaxed text-zinc-300">
           <code>{code}</code>
         </pre>
       </div>
