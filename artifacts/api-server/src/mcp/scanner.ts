@@ -146,6 +146,7 @@ export async function scanPage(
     });
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
+    logger.error({ err: msg }, "Chromium failed to launch");
     if (
       msg.includes("Executable doesn't exist") ||
       msg.includes("browserType.launch") ||
@@ -155,7 +156,8 @@ export async function scanPage(
       throw new Error(
         "Scanner not ready: browser runtime is not installed on this server. " +
           "If self-hosting, run `npx playwright install chromium` after `pnpm install`. " +
-          "For the hosted service contact info@groundlogic.ai."
+          "For the hosted service contact info@groundlogic.ai. " +
+          `Underlying error: ${msg}`
       );
     }
     throw err;
