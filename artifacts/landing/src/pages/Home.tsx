@@ -7,7 +7,7 @@ export default function Home() {
   const claudeConfig = `{
   "mcpServers": {
     "accessibility-ai": {
-      "url": "https://accessibilityai.replit.app/mcp",
+      "url": "https://accessibility.groundlogic.ai/mcp",
       "transport": "http"
     }
   }
@@ -16,7 +16,7 @@ export default function Home() {
   const cursorConfig = `{
   "mcpServers": {
     "accessibility-ai": {
-      "url": "https://accessibilityai.replit.app/mcp",
+      "url": "https://accessibility.groundlogic.ai/mcp",
       "transport": "streamable-http"
     }
   }
