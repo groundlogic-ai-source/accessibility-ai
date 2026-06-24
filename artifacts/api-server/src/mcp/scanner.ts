@@ -1,11 +1,27 @@
 import { chromium } from "playwright";
+import { execSync } from "node:child_process";
+import { existsSync } from "node:fs";
 import AxeBuilder from "@axe-core/playwright";
 import Anthropic from "@anthropic-ai/sdk";
 import { v4 as uuidv4 } from "uuid";
 import { logger } from "../lib/logger";
 import type { ViolationItem, ScanResult } from "./types";
 
-const SEVERITY_ORDER: Record<string, "critical" | "serious" | "moderate" | "minor"> = {
+function resolveBrowserExecutable(): string | undefined {
+    const envPath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || process.env.CHROMIUM_PATH;
+    if (envPath && existsSync(envPath)) return envPath;
+    for (const bin of ["chromium", "chromium-browser", "google-chrome-stable", "google-chrome", "chrome"]) {
+      try {
+        const found = execSync(`command -v ${bin}`, { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+        if (found && existsSync(found)) return found;
+      } catch {
+        // not on PATH; try next candidate
+      }
+    }
+    return undefined;
+  }
+
+  const SEVERITY_ORDER: Record<string, "critical" | "serious" | "moderate" | "minor"> = {
   critical: "critical",
   serious: "serious",
   moderate: "moderate",
@@ -140,8 +156,11 @@ export async function scanPage(
 
   let browser;
   try {
+    const executablePath = resolveBrowserExecutable();
+    if (executablePath) logger.info({ executablePath }, "Using system Chromium");
     browser = await chromium.launch({
       headless: true,
+      ...(executablePath ? { executablePath } : {}),
       args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
     });
   } catch (err) {

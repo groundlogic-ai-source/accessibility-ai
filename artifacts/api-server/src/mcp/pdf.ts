@@ -1,7 +1,23 @@
 import { chromium } from "playwright";
+import { execSync } from "node:child_process";
+import { existsSync } from "node:fs";
 import type { VpatReport } from "./types";
 
-function conformanceBadgeColor(level: string): string {
+function resolveBrowserExecutable(): string | undefined {
+    const envPath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || process.env.CHROMIUM_PATH;
+    if (envPath && existsSync(envPath)) return envPath;
+    for (const bin of ["chromium", "chromium-browser", "google-chrome-stable", "google-chrome", "chrome"]) {
+      try {
+        const found = execSync(`command -v ${bin}`, { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+        if (found && existsSync(found)) return found;
+      } catch {
+        // not on PATH; try next candidate
+      }
+    }
+    return undefined;
+  }
+
+  function conformanceBadgeColor(level: string): string {
   switch (level) {
     case "Supports": return "#16a34a";
     case "Partially Supports": return "#d97706";
@@ -229,8 +245,10 @@ function buildHtml(report: VpatReport): string {
 
 export async function generatePdf(report: VpatReport): Promise<string> {
   const html = buildHtml(report);
+  const executablePath = resolveBrowserExecutable();
   const browser = await chromium.launch({
     headless: true,
+    ...(executablePath ? { executablePath } : {}),
     args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
   });
 
