@@ -1,6 +1,7 @@
 import express, { type Express } from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
+import rateLimit from "express-rate-limit";
 import path from "path";
 import fs from "fs";
 import router from "./routes";
@@ -51,6 +52,23 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
+
+// Rate-limit MCP POST requests (the expensive tool calls: scan, fixes, VPAT).
+// GET /mcp (SSE keep-alive) and DELETE /mcp (session teardown) are not limited.
+const mcpPostLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many MCP requests — please wait before retrying (20 req / 15 min limit)." },
+});
+app.use("/mcp", (req, res, next) => {
+  if (req.method === "POST") {
+    mcpPostLimiter(req, res, next);
+    return;
+  }
+  next();
+});
 
 registerMcpRoutes(app);
 

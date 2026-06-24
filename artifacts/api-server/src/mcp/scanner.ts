@@ -6,6 +6,7 @@ import AxeBuilder from "@axe-core/playwright";
 import Anthropic from "@anthropic-ai/sdk";
 import { v4 as uuidv4 } from "uuid";
 import { logger } from "../lib/logger";
+import { validateUrl, isBlockedUrl } from "../lib/ssrf";
 import type { ViolationItem, ScanResult } from "./types";
 
 export type VisionMode = "standard" | "thorough";
@@ -382,6 +383,11 @@ export async function scanPage(
     logger.info({ url, maxPages }, "Full site scan — collecting additional URLs");
   }
 
+  // Pre-flight SSRF guard — resolve the hostname before launching the browser.
+  // If the target resolves to a private/loopback/link-local address, throw now
+  // so we never open a browser context pointing at an internal service.
+  await validateUrl(url);
+
   let browser;
   try {
     const executablePath = resolveBrowserExecutable();
@@ -420,6 +426,25 @@ export async function scanPage(
         viewport: { width: 1280, height: SECTION_VIEWPORT_HEIGHT },
       });
       const page = await context.newPage();
+
+      // In-flight SSRF guard — intercept navigation requests (initial load +
+      // any HTTP redirects) and abort if they resolve to a private IP.
+      // This covers the "public URL → 301 → internal service" bypass.
+      await page.route("**/*", async (route) => {
+        if (!route.request().isNavigationRequest()) {
+          await route.continue();
+          return;
+        }
+        if (await isBlockedUrl(route.request().url())) {
+          logger.warn(
+            { blocked: route.request().url() },
+            "SSRF: aborting redirect to private/reserved address"
+          );
+          await route.abort("blockedbyclient");
+          return;
+        }
+        await route.continue();
+      });
 
       await page.goto(pageUrl, { waitUntil: "networkidle", timeout: 30000 });
 

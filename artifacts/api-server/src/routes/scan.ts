@@ -1,10 +1,22 @@
 import { Router } from "express";
 import { z } from "zod";
+import rateLimit from "express-rate-limit";
 import { scanPage } from "../mcp/scanner";
 import { generateFixes } from "../mcp/fixer";
 import { persistScan } from "../mcp/store";
 
 const router = Router();
+
+// Scan and fix endpoints are expensive (Playwright + Claude per request).
+// 15 requests per 15-minute window per IP is generous for legitimate use
+// but prevents runaway abuse or accidental loops.
+const scanLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 15,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many requests — please wait before retrying (15 req / 15 min limit)." },
+});
 
 const ScanBodySchema = z.object({
   url: z.string().url({ message: "url must be a valid URL" }),
@@ -23,7 +35,7 @@ const ScanBodySchema = z.object({
  * Body: { url, anthropic_api_key, scan_depth?, max_pages? }
  * Returns: scan result JSON including scan_id, violations, etc.
  */
-router.post("/scan", async (req, res) => {
+router.post("/scan", scanLimiter, async (req, res) => {
   const parsed = ScanBodySchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({
@@ -65,7 +77,7 @@ router.post("/scan", async (req, res) => {
  *
  * Body: { url, anthropic_api_key, framework?, scan_depth?, max_pages? }
  */
-router.post("/fixes", async (req, res) => {
+router.post("/fixes", scanLimiter, async (req, res) => {
   const parsed = ScanBodySchema.extend({
     framework: z
       .enum(["react", "html", "vue", "angular", "next"])
