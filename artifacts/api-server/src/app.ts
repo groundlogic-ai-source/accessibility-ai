@@ -11,7 +11,21 @@ const workspaceRoot = process.cwd().endsWith(path.join("artifacts", "api-server"
   ? path.resolve(process.cwd(), "../..")
   : process.cwd();
 
+const CANONICAL_HOST = "accessibility.groundlogic.ai";
+const LEGACY_HOST = "accessibilityai.replit.app";
+
 const app: Express = express();
+
+// Redirect the old .replit.app domain to the canonical custom domain
+app.use((req, res, next) => {
+  const host = req.hostname;
+  if (host === LEGACY_HOST || host.endsWith(`.${LEGACY_HOST}`)) {
+    const target = `https://${CANONICAL_HOST}${req.originalUrl}`;
+    res.redirect(301, target);
+    return;
+  }
+  next();
+});
 
 app.use(
   pinoHttp({
