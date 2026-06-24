@@ -8,6 +8,12 @@ export interface ViolationItem {
   source: "axe" | "vision";
   impact?: string;
   helpUrl?: string;
+  /**
+   * Vision-only: model self-rated confidence 1-5. Findings below the
+   * threshold are dropped at scan time, so this is never persisted to the DB
+   * and is undefined for axe violations and for items reloaded from storage.
+   */
+  confidence?: number;
 }
 
 export interface ScanResult {
@@ -80,11 +86,29 @@ export interface VpatReport {
   sections: VpatSection[];
 }
 
+/**
+ * Advisory (vision-tier) comparison for re_verify. Vision findings are
+ * non-deterministic AI judgments and are reported separately so they never
+ * pollute the factual axe-based resolved/persisting/improvement numbers.
+ */
+export interface VisionAdvisory {
+  originalFindings: number;
+  currentFindings: number;
+  resolved: ViolationItem[];
+  persisting: ViolationItem[];
+  newFindings: ViolationItem[];
+  note: string;
+}
+
 export interface ReVerifyResult {
   scanId: string;
   originalScanId: string;
   url: string;
   timestamp: string;
+  /**
+   * The factual tier (axe-core only). These fields are deterministic and
+   * drive the pass/fail story and improvement percentage.
+   */
   originalViolations: number;
   currentViolations: number;
   resolved: ViolationItem[];
@@ -92,4 +116,6 @@ export interface ReVerifyResult {
   newViolations: ViolationItem[];
   improvementPercentage: number;
   summary: string;
+  /** Advisory tier (Claude Vision). Non-authoritative, reported separately. */
+  visionAdvisory: VisionAdvisory;
 }

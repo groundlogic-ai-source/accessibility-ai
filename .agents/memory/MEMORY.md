@@ -1,1 +1,1 @@
-- [MCP SDK usage](mcp-sdk-usage.md) — tool() needs 5-arg form; zod must be "zod" not "zod/v4"; StreamableHTTPServerTransport wiring pattern
+- [axe-core WCAG tags](axe-core-wcag-tags.md) — axe success-criteria tags are digit-only (`wcag143`), never dotted; a dotted regex silently mismaps every violation.

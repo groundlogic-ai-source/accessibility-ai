@@ -11,6 +11,7 @@ const ScanBodySchema = z.object({
   anthropic_api_key: z.string().min(10, { message: "anthropic_api_key is required" }),
   scan_depth: z.enum(["single_page", "full_site"]).optional().default("single_page"),
   max_pages: z.number().int().min(1).max(10).optional().default(1),
+  vision_mode: z.enum(["standard", "thorough"]).optional().default("standard"),
 });
 
 /**
@@ -32,14 +33,14 @@ router.post("/scan", async (req, res) => {
     return;
   }
 
-  const { url, anthropic_api_key, scan_depth, max_pages } = parsed.data;
+  const { url, anthropic_api_key, scan_depth, max_pages, vision_mode } = parsed.data;
   let pages = max_pages;
   if (scan_depth === "full_site" && pages === 1) pages = 5;
 
-  req.log.info({ url, scan_depth, pages }, "REST /api/scan called");
+  req.log.info({ url, scan_depth, pages, vision_mode }, "REST /api/scan called");
 
   try {
-    const result = await scanPage(url, anthropic_api_key, scan_depth, pages);
+    const result = await scanPage(url, anthropic_api_key, scan_depth, pages, vision_mode);
     await persistScan(result);
     res.json({
       ...result,
@@ -80,14 +81,14 @@ router.post("/fixes", async (req, res) => {
     return;
   }
 
-  const { url, anthropic_api_key, scan_depth, max_pages, framework } = parsed.data;
+  const { url, anthropic_api_key, scan_depth, max_pages, framework, vision_mode } = parsed.data;
   let pages = max_pages;
   if (scan_depth === "full_site" && pages === 1) pages = 5;
 
-  req.log.info({ url, scan_depth, pages, framework }, "REST /api/fixes called");
+  req.log.info({ url, scan_depth, pages, framework, vision_mode }, "REST /api/fixes called");
 
   try {
-    const scanResult = await scanPage(url, anthropic_api_key, scan_depth, pages);
+    const scanResult = await scanPage(url, anthropic_api_key, scan_depth, pages, vision_mode);
     await persistScan(scanResult);
 
     const fixResult = await generateFixes(

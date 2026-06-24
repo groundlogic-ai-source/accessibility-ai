@@ -358,16 +358,38 @@ export async function buildVpatReport(
   reportId: string
 ): Promise<VpatReport> {
   const template = loadTemplate();
-  const bycriterion = buildViolationsByCriterion(violations);
+  const axeByCriterion = buildViolationsByCriterion(
+    violations.filter((v) => v.source === "axe")
+  );
+  const visionByCriterion = buildViolationsByCriterion(
+    violations.filter((v) => v.source === "vision")
+  );
   const client = new Anthropic({ apiKey: anthropicKey });
 
   const levelACriteria: VpatCriterionResult[] = [];
   const levelAACriteria: VpatCriterionResult[] = [];
 
   for (const criterion of template) {
-    const criterionViolations = bycriterion.get(criterion.criterion) ?? [];
-    const conformance = determineConformance(criterion, criterionViolations);
-    const remarks = await generateRemarks(criterion, conformance, criterionViolations, client);
+    const axeViolations = axeByCriterion.get(criterion.criterion) ?? [];
+    const visionFindings = visionByCriterion.get(criterion.criterion) ?? [];
+
+    // Conformance is anchored on the factual (axe-core) tier only. Non-deterministic
+    // vision findings are surfaced as advisory remarks but never drive a conformance claim.
+    const conformance = determineConformance(criterion, axeViolations);
+
+    let remarks =
+      axeViolations.length > 0
+        ? await generateRemarks(criterion, conformance, axeViolations, client)
+        : `No automated DOM violations were detected for ${criterion.name}.`;
+
+    if (visionFindings.length > 0) {
+      const advisory = visionFindings
+        .slice(0, 3)
+        .map((v) => v.issue)
+        .join("; ");
+      const more = visionFindings.length > 3 ? ` (and ${visionFindings.length - 3} more)` : "";
+      remarks += ` Advisory (AI visual review — non-authoritative): ${visionFindings.length} potential issue(s) flagged for manual confirmation: ${advisory}${more}.`;
+    }
 
     const result: VpatCriterionResult = {
       criterion: criterion.criterion,
@@ -385,7 +407,7 @@ export async function buildVpatReport(
     clause: "Clause 9 — Web (WCAG 2.1)",
     title: "WCAG 2.x Report — Web Content",
     notes:
-      "Evaluated via automated DOM scanning (axe-core) and AI visual analysis (Claude Vision). Covers WCAG 2.1 Level A and Level AA success criteria.",
+      "Conformance levels are determined by automated DOM scanning (axe-core), which is deterministic and reproducible. AI visual analysis (Claude Vision) is included only as non-authoritative advisory remarks and does not affect conformance claims. Covers WCAG 2.1 Level A and Level AA success criteria.",
     criteria: [...levelACriteria, ...levelAACriteria],
   };
 

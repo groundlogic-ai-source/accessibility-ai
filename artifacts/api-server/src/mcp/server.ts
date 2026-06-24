@@ -74,9 +74,16 @@ export function registerMcpRoutes(app: Express): void {
           .optional()
           .default(1)
           .describe("Maximum pages to scan when scan_depth is full_site"),
+        vision_mode: z
+          .enum(["standard", "thorough"])
+          .optional()
+          .default("standard")
+          .describe(
+            "Vision analysis depth. 'standard' runs one Claude Vision pass on the full page (fast, default). 'thorough' analyzes the page section-by-section with a two-pass consensus to reduce false positives (slower, more API calls; applied to the first page only)."
+          ),
       },
       READONLY_ANNOTATIONS,
-      async ({ url, anthropic_api_key, scan_depth, max_pages }) => {
+      async ({ url, anthropic_api_key, scan_depth, max_pages, vision_mode }) => {
         logger.info(
           { url, scan_depth, max_pages, key: redactKey(anthropic_api_key) },
           "scan_accessibility called"
@@ -86,7 +93,13 @@ export function registerMcpRoutes(app: Express): void {
         let pages = max_pages ?? 1;
         if (depth === "full_site" && pages === 1) pages = 5;
 
-        const result = await scanPage(url, anthropic_api_key, depth, pages);
+        const result = await scanPage(
+          url,
+          anthropic_api_key,
+          depth,
+          pages,
+          vision_mode ?? "standard"
+        );
         await persistScan(result);
 
         return {
@@ -171,17 +184,6 @@ export function registerMcpRoutes(app: Express): void {
           scan_id,
           anthropic_api_key
         );
-
-        await persistScan({
-          scanId: result.scanId,
-          url: result.url,
-          timestamp: result.timestamp,
-          totalViolations: result.currentViolations,
-          violationsBySeverity: { critical: 0, serious: 0, moderate: 0, minor: 0 },
-          violations: [...result.persisting, ...result.newViolations],
-          pagesScanned: 1,
-          estimatedFixTime: "N/A",
-        });
 
         return {
           content: [
