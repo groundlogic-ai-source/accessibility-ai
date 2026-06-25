@@ -1,7 +1,10 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2, Code2, FileText, Github, Layers, Lock, ShieldCheck, Terminal, Zap } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Code2, FileText, Github, Layers, Lock, MessageSquare, ShieldCheck, Terminal, Zap } from 'lucide-react';
 import { CodeBlock } from '@/components/CodeBlock';
 import { Button } from '@/components/ui/button';
+
+// Replace this URL with your Google Form link once created.
+const FEEDBACK_URL = "https://forms.gle/YOUR_FORM_ID_HERE";
 
 export default function Home() {
   const claudeConfig = `{
@@ -37,6 +40,10 @@ export default function Home() {
             <a href="#features" className="hover:text-foreground transition-colors">Features</a>
             <a href="#how-it-works" className="hover:text-foreground transition-colors">How it Works</a>
             <a href="#installation" className="hover:text-foreground transition-colors">Installation</a>
+            <a href={FEEDBACK_URL} target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors flex items-center gap-1.5">
+              <MessageSquare className="h-3 w-3" />
+              Feedback
+            </a>
           </nav>
           <div className="flex items-center gap-4">
             <a href="https://github.com/groundlogic-ai-source/accessibility-ai" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -48,6 +55,19 @@ export default function Home() {
           </div>
         </div>
       </header>
+
+      {/* Beta notice banner */}
+      <div className="w-full bg-amber-50 border-b border-amber-200 px-6 py-2.5">
+        <div className="container mx-auto flex items-center gap-3 text-xs text-amber-800">
+          <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-amber-600" />
+          <span>
+            <strong>Beta:</strong> Automated tools detect ~40–60% of accessibility issues. Manual review recommended before submitting VPATs for formal compliance.{" "}
+            <a href={FEEDBACK_URL} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-amber-900 font-medium">
+              Report a bug or share feedback →
+            </a>
+          </span>
+        </div>
+      </div>
 
       <main className="flex-1">
         {/* Hero Section */}
@@ -266,9 +286,16 @@ export default function Home() {
             <a href="mailto:info@groundlogic.ai" className="text-muted-foreground hover:text-foreground transition-colors">
               info@groundlogic.ai
             </a>
+            <a href={FEEDBACK_URL} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
+              <MessageSquare className="h-3 w-3" />
+              <span>Feedback</span>
+            </a>
             <a href="https://github.com/groundlogic-ai-source/accessibility-ai" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5">
               <Github className="h-3 w-3" />
               <span>GitHub</span>
+            </a>
+            <a href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
+              Privacy
             </a>
           </div>
         </div>

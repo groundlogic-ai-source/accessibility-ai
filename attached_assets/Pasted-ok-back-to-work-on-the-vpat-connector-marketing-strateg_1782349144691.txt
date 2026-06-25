@@ -1,0 +1,68 @@
+ok back to work on the vpat connector marketing strategy. Can I do claude first? Does my github and landing page have everything it needs? how about a disclaimer in my github that the product is an early release beta prototype, and that things may break? Maybe could I add a link to a google form feedback thing maybe?
+
+8:54 PM
+
+Synthesized submission requirements and vetted marketing strategy components
+Synthesized submission requirements and vetted marketing strategy components
+Here's everything you need, clearly organized:
+
+Can You Submit to Claude Directory First?
+The submission portal is inside Claude.ai admin settings and requires a Team or Enterprise plan. If you're on a free or Pro plan, you use the public MCP directory submission form instead — which is fine and gets reviewed the same way. 
+Dentalcompare
+
+Does Your GitHub/Landing Page Have Everything Needed?
+Here's the exact pre-submission checklist based on what Anthropic actually rejects:
+
+Your server code — check these first:
+
+All tools must include readOnlyHint or destructiveHint annotations — missing annotations cause about 30% of rejections. Verify every single tool in your server has this. One missing annotation = rejected. 
+Patterson Dental
+
+Your server must use Streamable HTTP transport — SSE was deprecated in the March 2025 MCP spec. Confirm this in your server config. 
+Patterson Dental
+
+Your landing page needs:
+
+Remote MCP servers should provide a stable privacy policy URL in their public docs and submission — a missing or incomplete privacy policy results in immediate rejection. Your privacy policy needs to live at a real stable URL like accessibility.groundlogic.ai/privacy — not just in the README. 
+Patterson Support
+
+What Anthropic's reviewers need from you:
+
+Developers must provide a standard testing account with sample data, and at least three working examples of prompts or use cases that demonstrate core functionality. 
+Getkolla
+
+Since your tool has no auth, the "testing account" requirement doesn't apply — but you need to provide three concrete example prompts like:
+
+"Scan accessibility.groundlogic.ai and generate a VPAT report"
+"Check fswdentalcare.replit.app for WCAG violations"
+"Generate accessibility fixes for [URL]"
+Beta Disclaimer — Yes, Add It
+Good instinct. Add this at the very top of your README above everything else:
+
+markdown
+> **Beta Release** — AccessibilityAI is an early prototype. 
+> Automated tools detect approximately 40-60% of accessibility 
+> issues. Manual review is recommended before submitting VPAT 
+> reports for formal compliance purposes. Expect rough edges 
+> and please report bugs via the feedback form below.
+This protects you legally, sets honest expectations, and actually builds trust rather than undermining it. Compliance-aware developers respect honesty about tool limitations.
+
+Google Form Feedback — Yes, Definitely
+Simple and smart. Create a Google Form with just four fields:
+
+What URL did you scan?
+Did the tool work as expected? (Yes / Partially / No)
+What broke or didn't work well? (text)
+Feature requests? (text)
+Embed the link in your README right under the beta disclaimer and on your landing page. Two reasons this matters beyond just collecting feedback: it signals to Claude directory reviewers that you're actively maintaining the tool, and it gives you real user data to point to on your college applications — "received feedback from X developers across Y institutions."
+
+Exact Submission Order
+Fix any missing readOnlyHint annotations in server code
+Add privacy policy at a live URL
+Add beta disclaimer to README
+Add Google Form feedback link to README and landing page
+Prepare your three example prompts
+Submit to mcp.so and official registry today — no review required, instant listing
+Submit to Claude directory — reviewed manually, give it 1-2 weeks
+Want me to write the three example prompts for the Claude submission in the exact format they want?
+

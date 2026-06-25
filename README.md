@@ -2,11 +2,23 @@
 
 > Autonomous WCAG 2.1 accessibility auditor that scans, fixes, re-verifies, and generates VPAT 2.5 EN 301 549 reports using AI vision analysis + DOM scanning.
 
+> **⚠️ Beta Release** — AccessibilityAI is an early-stage prototype. Automated tools detect approximately 40–60% of accessibility issues. Manual review by a certified specialist is recommended before submitting VPAT reports for formal compliance purposes. Expect rough edges — please [share feedback or report bugs](https://forms.gle/YOUR_FORM_ID_HERE) using the form below.
+
 **[Add demo GIF here]**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-blue.svg)](https://modelcontextprotocol.io)
 [![WCAG 2.1](https://img.shields.io/badge/WCAG-2.1-green.svg)](https://www.w3.org/WAI/WCAG21/quickref/)
+
+---
+
+## Feedback
+
+AccessibilityAI is actively developed. If something breaks or you have a feature request, we want to know.
+
+**[→ Open the feedback form](https://forms.gle/YOUR_FORM_ID_HERE)**
+
+You can also [open a GitHub Issue](https://github.com/groundlogic-ai-source/accessibility-ai/issues) for bug reports.
 
 ---
 
@@ -177,6 +189,27 @@ Generates a complete VPAT 2.5 EN 301 549 accessibility conformance report. Retur
 
 ---
 
+## Example Prompts
+
+Use these prompts with Claude Desktop, Claude Code, or any MCP client connected to AccessibilityAI:
+
+**1. Scan a site and get a violation summary:**
+```
+Scan https://example.com for WCAG 2.1 accessibility violations using my Anthropic key sk-ant-... and give me a prioritized summary of what needs to be fixed.
+```
+
+**2. Generate code fixes for a specific framework:**
+```
+Use the scan_id from the accessibility scan you just ran to generate React code fixes for all the violations. Format them so I can paste them directly into my codebase.
+```
+
+**3. Re-verify fixes and produce a VPAT report:**
+```
+Re-verify https://example.com using the original scan_id to confirm my fixes resolved the issues, then generate a complete VPAT 2.5 compliance report for "Acme Corp" and return the PDF.
+```
+
+---
+
 ## Used in Production
 
 AccessibilityAI powers accessibility compliance workflows in healthcare and government sectors where VPAT documentation is required for procurement. Organizations use it to generate baseline conformance reports before manual audits, saving 4-8 hours per audit cycle.
@@ -227,7 +260,7 @@ Contributions are welcome. Please:
 3. Add or update tests for changed behavior
 4. Open a pull request with a clear description
 
-For bug reports and feature requests, open a GitHub Issue.
+For bug reports and feature requests, open a [GitHub Issue](https://github.com/groundlogic-ai-source/accessibility-ai/issues) or use the [feedback form](https://forms.gle/YOUR_FORM_ID_HERE).
 
 ---
 
