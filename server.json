@@ -1,0 +1,16 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.groundlogic-ai-source/accessibility-ai",
+  "description": "Scan URLs for WCAG 2.1 violations, generate AI fixes, and produce VPAT 2.5 compliance reports.",
+  "repository": {
+    "url": "https://github.com/groundlogic-ai-source/accessibility-ai",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://accessibility.groundlogic.ai/mcp"
+    }
+  ]
+}
