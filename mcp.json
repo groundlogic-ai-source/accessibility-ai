@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "accessibility-ai": {
+      "type": "streamableHttp",
+      "url": "https://accessibility.groundlogic.ai/mcp"
+    }
+  }
+}
