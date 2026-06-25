@@ -3,8 +3,7 @@ import { AlertTriangle, CheckCircle2, Code2, FileText, Github, Layers, Lock, Mes
 import { CodeBlock } from '@/components/CodeBlock';
 import { Button } from '@/components/ui/button';
 
-// Replace this URL with your Google Form link once created.
-const FEEDBACK_URL = "https://forms.gle/YOUR_FORM_ID_HERE";
+const FEEDBACK_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfRsgE_-xFmkuwtMhmVHJULcvfY4y8SNw81iEJJxJREra6t7Q/viewform?usp=publish-editor";
 
 export default function Home() {
   const claudeConfig = `{

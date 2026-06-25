@@ -2,7 +2,7 @@
 
 > Autonomous WCAG 2.1 accessibility auditor that scans, fixes, re-verifies, and generates VPAT 2.5 EN 301 549 reports using AI vision analysis + DOM scanning.
 
-> **⚠️ Beta Release** — AccessibilityAI is an early-stage prototype. Automated tools detect approximately 40–60% of accessibility issues. Manual review by a certified specialist is recommended before submitting VPAT reports for formal compliance purposes. Expect rough edges — please [share feedback or report bugs](https://forms.gle/YOUR_FORM_ID_HERE) using the form below.
+> **⚠️ Beta Release** — AccessibilityAI is an early-stage prototype. Automated tools detect approximately 40–60% of accessibility issues. Manual review by a certified specialist is recommended before submitting VPAT reports for formal compliance purposes. Expect rough edges — please [share feedback or report bugs](https://docs.google.com/forms/d/e/1FAIpQLSfRsgE_-xFmkuwtMhmVHJULcvfY4y8SNw81iEJJxJREra6t7Q/viewform?usp=publish-editor) using the form below.
 
 **[Add demo GIF here]**
 
@@ -16,7 +16,7 @@
 
 AccessibilityAI is actively developed. If something breaks or you have a feature request, we want to know.
 
-**[→ Open the feedback form](https://forms.gle/YOUR_FORM_ID_HERE)**
+**[→ Open the feedback form](https://docs.google.com/forms/d/e/1FAIpQLSfRsgE_-xFmkuwtMhmVHJULcvfY4y8SNw81iEJJxJREra6t7Q/viewform?usp=publish-editor)**
 
 You can also [open a GitHub Issue](https://github.com/groundlogic-ai-source/accessibility-ai/issues) for bug reports.
 
@@ -260,7 +260,7 @@ Contributions are welcome. Please:
 3. Add or update tests for changed behavior
 4. Open a pull request with a clear description
 
-For bug reports and feature requests, open a [GitHub Issue](https://github.com/groundlogic-ai-source/accessibility-ai/issues) or use the [feedback form](https://forms.gle/YOUR_FORM_ID_HERE).
+For bug reports and feature requests, open a [GitHub Issue](https://github.com/groundlogic-ai-source/accessibility-ai/issues) or use the [feedback form](https://docs.google.com/forms/d/e/1FAIpQLSfRsgE_-xFmkuwtMhmVHJULcvfY4y8SNw81iEJJxJREra6t7Q/viewform?usp=publish-editor).
 
 ---
 
